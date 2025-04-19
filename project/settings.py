@@ -20,9 +20,15 @@ SECRET_KEY = os.environ.get(
 DEBUG = True
 # DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
+# ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "airborne-images-12drones-571596e197eb.herokuapp.com",
+    ".herokuapp.com",
+]
 
-    
+
 INSTALLED_APPS = [
     'storages',
     'jazzmin',
@@ -191,8 +197,13 @@ WHITENOISE_USE_FINDERS = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-SECURE_SSL_REDIRECT = True
+DEBUG = env.bool("DEBUG", default=False)
 
-SESSION_COOKIE_SECURE = True
-
-CSRF_COOKIE_SECURE = True
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+else:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
