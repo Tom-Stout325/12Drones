@@ -155,7 +155,12 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 #_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  CUSTOM SETTINGS
 
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
 
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
