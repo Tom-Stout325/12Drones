@@ -23,7 +23,7 @@ DEBUG = True
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["https://airborne-images-12drones-571596e197eb.herokuapp.com/"])
     
 INSTALLED_APPS = [
-    ['storages'],
+    'storages',
     'jazzmin',
 
     'django.contrib.admin',
@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     'app.apps.AppConfig',
     'drones.apps.DronesConfig',
 
-    "weasyprint",
     'bootstrap5',
     'fontawesomefree',
-    "whitenoise.runserver_nostatic",
+    'whitenoise.runserver_nostatic',
 ]
+
 
 
 MIDDLEWARE = [
