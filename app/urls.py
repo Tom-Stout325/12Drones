@@ -6,9 +6,9 @@ from .views import *
 
 urlpatterns = [
 
-  path('register', register, name="register"),
-  path('login', loginView, name="login"),
-  path('logout', logout, name="logout"),
+  path('register/', register, name="register"),
+  path('logout/', logout, name="logout"),
+  path('login/', loginView, name="login"), 
 
   path('profile/', pilot_profile, name='pilot_profile'),
   path('profile/training/<int:pk>/delete/', delete_training, name='delete_training'),
