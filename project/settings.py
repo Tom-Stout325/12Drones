@@ -168,15 +168,13 @@ JAZZMIN_UI_TWEAKS = {
     "dark_mode_theme": "darkly",
 }
 
-#=-=-=-=-=-=-=-=-=-=-=-=-=->  PRODUCTION SETTINGS:  Remove all # below
 
 WHITENOISE_USE_FINDERS = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_SECURE = True
 
-# Remove the '#' to require SSL connections Leave it in for localhost
-#SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
