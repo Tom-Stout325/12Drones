@@ -22,7 +22,6 @@ from app import views as app_views
 
 urlpatterns += [
     path('accounts/register/', app_views.register, name='register'),
-    path('accounts/activate/<uidb64>/<token>/', app_views.activate, name='activate'),
 ]
 handler403 = 'app.views.permission_denied_view'
 handler404 = 'app.views.custom_404_view'
