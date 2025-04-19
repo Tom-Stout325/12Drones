@@ -218,3 +218,4 @@ else:
     CSRF_COOKIE_SECURE = False
 
 
+SESSION_COOKIE_DOMAIN = ".herokuapp.com"

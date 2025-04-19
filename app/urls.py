@@ -13,6 +13,7 @@ urlpatterns = [
   path('profile/', pilot_profile, name='pilot_profile'),
   path('profile/training/<int:pk>/delete/', delete_training, name='delete_training'),
 
+  path('test-login/', test_login, name='test_login'),
 
 
 ]
