@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> {% block title %} {% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{% static '/images/favicon.ico' %}">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
+
+
+    <script src="{% static 'js/index.js' %}" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&family=Kalnia:wght@100;300;400&display=swap" rel="stylesheet">
+
+
+
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+
+   </head>
+
+
+    <body>
+        {% include 'navbar.html' %}
+        <br>
+        
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <p id="message-timer" class="alert alert-success float-center text-center message-text"> 
+                    <i class="fa fa-check" aria-hidden="true"></i> &nbsp; {{message}}
+                </p>
+            {% endif %}
+        {% endfor %}
+        
+        <div class="container mt-3">
+            {% block breadcrumbs %}
+            <!-- Breadcrumbs will go here -->
+            {% endblock %}
+          </div>
+        
+        {% block content %}
+        
+        {% endblock %}
+        <script src=" {% static 'js/index.js' %}"></script>
+    </body>
+
+</html>

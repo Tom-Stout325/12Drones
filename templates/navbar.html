@@ -1,0 +1,54 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
+  <div class="container-fluid">
+    <!-- Logo & Brand -->
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'documents' %}">
+      <img src="{% static 'images/logo1.png' %}" class="logo-img" alt="Logo">
+    </a>
+
+    <!-- Mobile Toggle Button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+      aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li><p class="fs-3 color-primary px-3">Airborne Images</p></li>
+      
+       
+      </ul>
+
+      <!-- Sign In/Out Links -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">
+            <i class="fa-solid fa-right-to-bracket"></i> Sign In
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">
+            Sign Out <i class="fa-solid fa-right-from-bracket"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Add this to your CSS file or inside a <style> tag -->
+<style>
+  .logo-img {
+    height: 60px; /* Adjusted for better scaling */
+    max-width: 100%;
+  }
+
+  /* Improve dropdown touch targets on mobile */
+  @media (max-width: 992px) {
+    .dropdown-menu {
+      width: 100%; /* Full width for better touch interaction */
+    }
+  }
+</style>

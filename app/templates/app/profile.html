@@ -1,0 +1,116 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Drone Incident Report{% endblock %}
+
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'documents' %}">Documents</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'incident_reporting_system' %}">Incident Reporting System</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'sop_list' %}">SOPs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'general_document_list' %}">General Documents</a></li>
+    <li class="breadcrumb-item active" aria-current="profile">Profile</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center text-primary mb-4">Pilot Profile</h2>
+
+  <!-- Profile Form -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h4 class="card-title text-center mb-3">Update Profile</h4>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ profile_form.as_p }}
+        <div class="text-end">
+          <button type="submit" class="btn btn-primary">Update Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Pilot Info -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h4 class="card-title text-center mb-3">Pilot Info</h4>
+      <hr class="w-50 mx-auto">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <p><strong>First Name:</strong> {{ request.user.first_name }}</p>
+          <p><strong>Last Name:</strong> {{ request.user.last_name }}</p>
+          <p><strong>Email:</strong> {{ request.user.email }}</p>
+        </div>
+        <div class="col-md-6 text-center">
+          {% if profile.license_image %}
+          <h6>License Image:</h6>
+          <img src="{{ profile.license_image.url }}" class="img-fluid rounded shadow-sm" style="max-height: 200px;" alt="License Image">
+          {% else %}
+          <p class="text-muted fst-italic">No license image uploaded.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Training Record Form -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h4 class="card-title text-center text-success mb-3">Add Training Record</h4>
+      <form method="post">
+        {% csrf_token %}
+        {{ training_form.as_p }}
+        <div class="text-end">
+          <button type="submit" class="btn btn-success">Add Training</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Training History -->
+  <div class="card shadow-sm mb-5">
+    <div class="card-body">
+      <h4 class="card-title text-center text-primary mb-3">Training History</h4>
+      {% if page_obj %}
+      <ul class="list-group">
+        {% for training in page_obj %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ training.training_name }}</strong><br>
+            <small class="text-muted">{{ training.training_date }}</small>
+          </div>
+          <a href="{% url 'delete_training' training.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <!-- Pagination -->
+      <nav class="mt-3">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; Prev</a>
+          </li>
+          {% endif %}
+
+          <li class="page-item disabled">
+            <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+          </li>
+
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% else %}
+      <p class="text-center text-muted">No training records yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
