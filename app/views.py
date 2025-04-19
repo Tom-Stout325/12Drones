@@ -20,8 +20,6 @@ from django.contrib.auth.models import User
 
 
 
-
-
 @login_required
 def pilot_profile(request):
     profile, created = PilotProfile.objects.get_or_create(user=request.user)
@@ -60,8 +58,6 @@ def delete_training(request, pk):
     return redirect('pilot_profile')
 
 
-
-
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -74,37 +70,6 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
-
-
-
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
-
-
-import logging
-logger = logging.getLogger(__name__)
-from django.contrib.auth import login
-
-def loginView(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            user = authenticate(
-                request,
-                username=form.cleaned_data['username'],
-                password=form.cleaned_data['password']
-            )
-            if user:
-                print(f"✅ LOGGING IN: {user.username}")
-                login(request, user)
-                return redirect('pilot_profile')
-            else:
-                print("❌ AUTH FAILED")
-    else:
-        form = LoginForm()
-    return render(request, 'registration/login.html', {'form': form})
-
 
 
 @login_required
