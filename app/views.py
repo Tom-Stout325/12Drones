@@ -1,31 +1,23 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.template.loader import render_to_string
-from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator
-from .forms import CustomUserCreationForm
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
-from django.contrib.auth import login
+from django.core.paginator import Paginator
 from django.contrib import messages
+from django.template.loader import render_to_string
 from django.urls import reverse
-from weasyprint import HTML
-from .models import *
-from .forms import *
-from django.contrib.auth import login
-from django.shortcuts import redirect, render
-from django.contrib.auth.models import User
 
+from .forms import CustomUserCreationForm, PilotProfileForm, TrainingRecordForm
+from .models import PilotProfile, TrainingRecord
 
 
 @login_required
 def pilot_profile(request):
-    profile, created = PilotProfile.objects.get_or_create(user=request.user)
+    profile, _ = PilotProfile.objects.get_or_create(user=request.user)
     trainings = profile.trainings.all().order_by('-training_date')
-
-    paginator = Paginator(trainings, 5)  # Show 5 per page
+    paginator = Paginator(trainings, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -63,29 +55,20 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = True 
-            user.save()          
-            login(request, user)  
+            user.is_active = True
+            user.save()
+            login(request, user)
             return redirect('pilot_profile')
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
 
-@login_required
-def logout(request):
-    from django.contrib.auth import logout as django_logout
-    django_logout(request)
-    return redirect('login')
-
-
 def permission_denied_view(request, exception=None):
     return render(request, 'registration/login_required.html', status=403)
 
-
 def custom_404_view(request, exception=None):
     return render(request, '404.html', status=404)
-
 
 def custom_500_view(request):
     return render(request, '500.html', status=500)
