@@ -26,8 +26,6 @@ ALLOWED_HOSTS = [
 # Installed apps
 INSTALLED_APPS = [
     'storages',
-    'jazzmin',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -146,27 +144,3 @@ USE_TZ = True
 USE_L10N = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Jazzmin
-JAZZMIN_SETTINGS = {
-    'site_title': "App",
-    'site_header': "images/logo1.png",
-    'site_brand': 'App',
-    'site_logo': 'static/images/logo.png',
-
-    'login_logo': 'static/images/logo.png',
-    'site_icon': 'static/images/logo.png',
-    'login_logo_dark': 'static/images/logo.png',
-    "copyright": "12bytes",
-    "user_avatar": 'static/images/logo.png',
-    "topmenu_links": [
-        {"name": "Admin Home", "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "auth.user"},
-        {"name": "Site Home", "url": "/admin/logout", "redirect": "/home/"},
-    ],
-}
-
-JAZZMIN_UI_TWEAKS = {
-    "theme": "lux",
-    "dark_mode_theme": "darkly",
-}

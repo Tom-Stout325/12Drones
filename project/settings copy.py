@@ -31,7 +31,6 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'storages',
-    'jazzmin',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -183,29 +182,6 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 
-JAZZMIN_SETTINGS = {
-    'site_title': "App",
-    'site_header': "images/logo1.png",
-    'site_brand': 'App',
-    'site_logo': "images/logo.png",
-    'login_logo': "images/logo.png",
-    'site_icon': "images/logo.png",
-    'login_logo_dark': "images/logo.png",
-    "copyright": "12bytes",
-    "user_avatar": "images/logo.png",
-
-    "topmenu_links": [
-        {"name": "Admin Home", "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "auth.user"},
-        {"name": "Site Home", "url": "/admin/logout", "redirect": "/home/"}
-    ]
-}
-
-
-JAZZMIN_UI_TWEAKS = {
-    "theme": "lux",
-    "dark_mode_theme": "darkly",
-}
 
 WHITENOISE_USE_FINDERS = True
 
