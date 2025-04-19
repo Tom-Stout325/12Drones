@@ -103,35 +103,37 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
+import logging
+logger = logging.getLogger(__name__)
+
 def loginView(request):
+    logger.info("🟡 loginView called")
+    
     if request.method == 'POST':
         form = LoginForm(request.POST)
+        logger.info(f"🔍 POST data: {request.POST}")
+        
         if form.is_valid():
+            logger.info("✅ Form is valid")
             user = authenticate(
                 request,
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password']
             )
             if user is not None:
+                logger.info(f"✅ User authenticated: {user.username}")
                 login(request, user)
-                return redirect(request.GET.get('next') or 'pilot_profile')  # or any page you prefer
+                return redirect(request.GET.get('next') or 'pilot_profile')
             else:
+                logger.warning("❌ Invalid credentials")
                 messages.error(request, 'Invalid username or password.')
+        else:
+            logger.warning("⚠️ Form is invalid")
     else:
         form = LoginForm()
+    
     return render(request, 'registration/login.html', {'form': form})
 
-
-
-
-
-
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-
-@login_required
-def test_login(request):
-    return HttpResponse(f"✅ Logged in as {request.user.username}")
 
 
 
