@@ -20,7 +20,7 @@ SECRET_KEY = os.environ.get(
 DEBUG = True
 # DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["https://airborne-images-12drones-571596e197eb.herokuapp.com/"])
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["airborne-images-12drones-571596e197eb.herokuapp.com"])
     
 INSTALLED_APPS = [
     'storages',
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'whitenoise.runserver_nostatic',
 ]
-
 
 
 MIDDLEWARE = [
