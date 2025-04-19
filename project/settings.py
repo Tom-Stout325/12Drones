@@ -152,12 +152,13 @@ JAZZMIN_SETTINGS = {
     'site_title': "App",
     'site_header': "images/logo1.png",
     'site_brand': 'App',
-    'site_logo': "images/logo.png",
-    'login_logo': "images/logo.png",
-    'site_icon': "images/logo.png",
-    'login_logo_dark': "images/logo.png",
+    'site_logo': 'static/images/logo.png',
+
+    'login_logo': 'static/images/logo.png',
+    'site_icon': 'static/images/logo.png',
+    'login_logo_dark': 'static/images/logo.png',
     "copyright": "12bytes",
-    "user_avatar": "images/logo.png",
+    "user_avatar": 'static/images/logo.png',
     "topmenu_links": [
         {"name": "Admin Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"name": "auth.user"},
