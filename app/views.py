@@ -60,20 +60,21 @@ def delete_training(request, pk):
     return redirect('pilot_profile')
 
 
+
+
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = True 
-            user.save()
-
+            user.save()          
             login(request, user)  
-            return redirect('pilot_profile')  
+            return redirect('pilot_profile')
     else:
         form = CustomUserCreationForm()
-
     return render(request, 'registration/register.html', {'form': form})
+
 
 
 class LoginForm(forms.Form):
