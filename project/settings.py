@@ -161,15 +161,16 @@ if not DEBUG:
 else:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 
 DATE_INPUT_FORMATS = ['%d-%m-%Y']  # --------------------------- Date format
-
-STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 
@@ -203,10 +204,7 @@ JAZZMIN_UI_TWEAKS = {
     "dark_mode_theme": "darkly",
 }
 
-
 WHITENOISE_USE_FINDERS = True
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEBUG = env.bool("DEBUG", default=False)
 
