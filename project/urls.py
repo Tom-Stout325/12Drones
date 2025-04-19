@@ -24,6 +24,6 @@ urlpatterns += [
     path('accounts/register/', app_views.register, name='register'),
     path('accounts/activate/<uidb64>/<token>/', app_views.activate, name='activate'),
 ]
-handler403 = 'your_app.views.permission_denied_view'
-handler404 = 'your_app.views.custom_404_view'
-handler500 = 'your_app.views.custom_500_view'
+handler403 = 'app.views.permission_denied_view'
+handler404 = 'app.views.custom_404_view'
+handler500 = 'app.views.custom_500_view'

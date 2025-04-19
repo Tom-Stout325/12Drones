@@ -1,20 +1,24 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from .forms import CustomUserCreationForm
-from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
+from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes
-from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
 from django.contrib.auth.models import User
-from django.urls import reverse
 from django.core.paginator import Paginator
+from django.utils.encoding import force_str
+from .forms import CustomUserCreationForm
+from django.core.mail import send_mail
+from django.contrib.auth import login
+from django.contrib import messages
+from django.urls import reverse
+from weasyprint import HTML
 from .models import *
 from .forms import *
-from weasyprint import HTML
+
 
 
 
@@ -79,26 +83,35 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
-from django.utils.http import urlsafe_base64_decode
-from django.utils.encoding import force_str
 
 
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib import messages
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
 
 def loginView(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('dashboard')  # Change this to wherever you want to redirect
-        else:
-            messages.error(request, 'Invalid username or password.')
-    return render(request, 'registration/login.html')
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                request,
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password']
+            )
+            if user is not None:
+                login(request, user)
+                return redirect(request.GET.get('next') or 'pilot_profile')  # or any page you prefer
+            else:
+                messages.error(request, 'Invalid username or password.')
+    else:
+        form = LoginForm()
+    return render(request, 'registration/login.html', {'form': form})
+
+
+
 
 
 @login_required
@@ -106,6 +119,8 @@ def logout(request):
     from django.contrib.auth import logout as django_logout
     django_logout(request)
     return redirect('login')
+
+
 
 
 
@@ -123,3 +138,16 @@ def activate(request, uidb64, token):
         return redirect('login')
     else:
         return render(request, 'registration/activation_invalid.html')
+
+
+
+from django.shortcuts import render
+
+def permission_denied_view(request, exception=None):
+    return render(request, 'registration/login_required.html', status=403)
+
+def custom_404_view(request, exception=None):
+    return render(request, '404.html', status=404)
+
+def custom_500_view(request):
+    return render(request, '500.html', status=500)
