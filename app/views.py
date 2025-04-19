@@ -122,12 +122,19 @@ def loginView(request):
     return render(request, 'registration/login.html', {'form': form})
 
 
+
+
+
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 @login_required
 def test_login(request):
     return HttpResponse(f"✅ Logged in as {request.user.username}")
+
+
+
 
 
 
