@@ -15,7 +15,10 @@ wizard_forms = [
     ("followup", FollowUpForm),
 ]
 
+
 urlpatterns = [
+
+
     path('', documents, name='documents'),
     path('incident-reporting', incident_reporting_system, name='incident_reporting_system'),
     path('incidents/', incident_report_list, name='incident_report_list'),
@@ -36,3 +39,5 @@ urlpatterns = [
 if settings.DEBUG:
     from django.conf.urls.static import static
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

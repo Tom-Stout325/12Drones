@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+
+{% block title %}Server Error{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+  <div class="alert alert-warning shadow-sm">
+    <h2 class="mb-3">⚠️ 500 - Server Error</h2>
+    <p class="lead">Something went wrong on our end.</p>
+    <a href="/" class="btn btn-secondary mt-3">Try Again</a>
+  </div>
+</div>
+{% endblock %}

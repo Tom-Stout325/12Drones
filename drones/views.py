@@ -14,18 +14,21 @@ from weasyprint import HTML
 import uuid
 import os
 from weasyprint import HTML
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from .forms import *
 from .models import *
 
 
+
+@login_required
 def documents(request):
     return render(request, 'drones/documents.html')
 
 
-
-
+@login_required
 def incident_reporting_system(request):
     query = request.GET.get('q', '').strip()
     reports = DroneIncidentReport.objects.all().order_by('-report_date')
@@ -44,10 +47,7 @@ def incident_reporting_system(request):
     return render(request, 'drones/incident_reporting_system.html', context)
 
 
-
-
-
-
+@login_required
 def incident_report_pdf(request, pk):
     report = get_object_or_404(DroneIncidentReport, pk=pk)
 
@@ -67,11 +67,9 @@ def incident_report_pdf(request, pk):
     print("USING HTML CONSTRUCTOR:", HTML.__init__)
     print("USING MODULE:", HTML.__module__)
 
-
     html = HTML(string=html_string, base_url=request.build_absolute_uri())
     pdf_content = html.write_pdf()
 
-   
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename="incident_report_{pk}.pdf"'
     response.write(pdf_content)
@@ -103,7 +101,7 @@ TEMPLATES = {
     "followup": "drones/wizard_form.html",
 }
 
-class IncidentReportWizard(SessionWizardView):
+class IncidentReportWizard(LoginRequiredMixin, SessionWizardView):
     template_name = 'drones/incident_report_form.html'
 
     def get(self, request, *args, **kwargs):
@@ -152,12 +150,12 @@ class IncidentReportWizard(SessionWizardView):
             'pdf_url': pdf_url,
         })
 
-
+@login_required
 def incident_report_success(request):
     pdf_url = request.GET.get('pdf_url', None) 
     return render(request, 'drones/report_success.html', {'pdf_url': pdf_url})
 
-
+@login_required
 def incident_report_list(request):
     query = request.GET.get('q', '')
     reports = DroneIncidentReport.objects.all()
@@ -181,13 +179,13 @@ def incident_report_list(request):
     return render(request, 'drones/incident_list.html', context)
 
 
+@login_required
 def incident_report_detail(request, pk):
     report = get_object_or_404(DroneIncidentReport, pk=pk)
     return render(request, 'drones/incident_report_detail.html', {'report': report})
 
 
-
-
+@login_required
 def sop_upload(request):
     if request.method == 'POST':
         form = SOPDocumentForm(request.POST, request.FILES)
@@ -199,7 +197,7 @@ def sop_upload(request):
     return render(request, 'sop_manager/sop_upload.html', {'form': form})
 
 
-
+@login_required
 def sop_list(request):
     sops = SOPDocument.objects.order_by('-created_at')
     paginator = Paginator(sops, 10)
@@ -212,7 +210,7 @@ def sop_list(request):
     })
 
 
-
+@login_required
 def general_document_list(request):
     search_query = request.GET.get('q', '').strip()
     selected_category = request.GET.get('category', '')
@@ -234,7 +232,7 @@ def general_document_list(request):
     }
     return render(request, 'drones/general_list.html', context)
 
-
+@login_required
 def upload_general_document(request):
     if request.method == 'POST':
         form = GeneralDocumentForm(request.POST, request.FILES)
@@ -246,13 +244,12 @@ def upload_general_document(request):
     return render(request, 'drones/upload_general.html', {'form': form})
 
 
-
-
+@login_required
 def equipment_list(request):
     equipment = Equipment.objects.all().order_by('-purchase_date')
     return render(request, 'drones/equipment_list.html', {'equipment': equipment})
 
-
+@login_required
 def equipment_create(request):
     if request.method == 'POST':
         form = EquipmentForm(request.POST)
@@ -263,7 +260,7 @@ def equipment_create(request):
         form = EquipmentForm()
     return render(request, 'drones/equipment_form.html', {'form': form, 'title': 'Add Equipment'})
 
-
+@login_required
 def equipment_edit(request, pk):
     item = get_object_or_404(Equipment, pk=pk)
     if request.method == 'POST':
@@ -275,10 +272,21 @@ def equipment_edit(request, pk):
         form = EquipmentForm(instance=item)
     return render(request, 'drones/equipment_form.html', {'form': form, 'title': 'Edit Equipment'})
 
-
+@login_required
 def equipment_delete(request, pk):
     item = get_object_or_404(Equipment, pk=pk)
     if request.method == 'POST':
         item.delete()
         return redirect('equipment_list')
     return render(request, 'drones/equipment_confirm_delete.html', {'item': item})
+
+
+def permission_denied_view(request, exception=None):
+    return render(request, 'registration/login_required.html', status=403)
+
+
+def custom_404_view(request, exception=None):
+    return render(request, '404.html', status=404)
+
+def custom_500_view(request):
+    return render(request, '500.html', status=500)
