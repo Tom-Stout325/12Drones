@@ -4,7 +4,7 @@ import environ
 import secrets
 import uuid
 from django.conf import settings
-
+import dj_database_url
 
 env = environ.Env()
 
@@ -85,11 +85,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-import dj_database_url
-DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
-}
 
+# DATABASES = {
+#     'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+# }
+
+
+DATABASES = {
+    'default': env.db(
+        default='sqlite:///db.sqlite3'
+    )
+}
 
 EMAIL_BACKEND = env('EMAIL_BACKEND')
 EMAIL_HOST = env('EMAIL_HOST')
