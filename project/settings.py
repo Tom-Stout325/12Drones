@@ -163,10 +163,12 @@ else:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+
+
 
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
@@ -219,4 +221,3 @@ else:
     CSRF_COOKIE_SECURE = False
 
 
-SESSION_COOKIE_DOMAIN = ".herokuapp.com"
