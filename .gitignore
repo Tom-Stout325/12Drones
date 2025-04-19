@@ -1,16 +1,31 @@
-.DS_store
-__pycache__/
-.vscode
-*.txt
-*.log
-*.pot
+# Python
 *.pyc
-__pycache__
+__pycache__/
+*.pyo
+*.pyd
+
+# Virtualenv
+venv/
+.env
+*.env
+
+# Django
 db.sqlite3
-.env 
-.venv 
-env/ 
-venv/ 
-ENV/ 
-env.bak/ 
-venv.bak/ 
+media/
+staticfiles/
+
+# MacOS
+.DS_Store
+__MACOSX/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# WeasyPrint cache
+weasyprint/
+
+# Heroku
+*.sqlite3

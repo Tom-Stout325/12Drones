@@ -1,0 +1,17 @@
+run:    django-admin startapp <App Name>
+        pip install -r requirements.txt
+        Add App Name to settings.py (Installed Apps)
+        python manage.py check
+        
+            If no errors:
+        python3 manage.py create superuser
+        python manage.py makemigrations
+        python manage.py migrate
+
+
+To repair weasyPrint issues, run this scriptinside the virtual environment
+
+export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig:/opt/homebrew/share/pkgconfig"
+export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
+
+
